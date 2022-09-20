@@ -1,0 +1,22 @@
+version: '3'
+services:
+  my-app:
+    image: rest-api:1.0
+    depends_on:
+      - postgres
+    ports:
+    - 3000:3000
+    links:
+      - postgres
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=test
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # mapping between host-volume-name:path inside of the mongo db container, it has to be the path where mongo db explicitly persists its data
+volumes:
+  postgres-data:
+    driver: local # telling docker to create this physical storage on a local file system
